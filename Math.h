@@ -8,12 +8,13 @@
 
 #include <csetjmp>
 #include <string>
-#include <stdexcept>
+#include <TigreFramework/Core/Kernel/Exception.h>
 
-class MathException : public std::runtime_error  {
+class MathException : public Exception  {
+
     public:
-        MathException(char const* const message) throw();
-        virtual char const* what() const throw();
+        MathException(std::string message);
+
 };
 
 class Math {

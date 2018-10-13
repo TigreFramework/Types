@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <nlohmann/json/single_include/nlohmann/json.hpp>
 #include "Date.h"
 
 Date::Date() {
@@ -52,8 +53,20 @@ Date* Date::fromFormat(std::string format, std::string date) {
     return new Date(time);
 }
 
+Date Date::parse(std::string format, std::string date) {
+    std::tm tm = {};
+    std::istringstream ss(date.c_str());
+    ss >> std::get_time(&tm, format.c_str()); // or just %T in this case
+    std::time_t time = mktime(&tm);
+    return Date{ time };
+}
+
 void Date::addDays(int days) {
     const time_t ONE_DAY = 24 * 60 * 60 ;
     // Seconds since start of epoch
     this->_time = this->_time + (days * ONE_DAY) ;
+}
+
+void to_json(nlohmann::json& j, const Date& p){
+    j = p.format("%d/%m/%Y %H:%M:%S");
 }

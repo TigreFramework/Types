@@ -34,10 +34,13 @@ class Date {
         void addDays( int days );
         static Date *now();
         static Date *fromFormat(std::string format, std::string date);
+        static Date parse(std::string format, std::string date);
     //private:
         time_t _time;
 
 };
+
+void to_json(nlohmann::json& j, const Date& p);
 
 
 #endif //INTEGRATION_DATE_H
